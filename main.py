@@ -39,7 +39,7 @@ class SettlerBot:
     @staticmethod
     def imgIntegrityCheck():
         for i in BUFF_IDS:
-            file_path = Path(f'{IMG_DIR}+{i}.png')
+            file_path = Path(f'{IMG_DIR}{i}.png')
             if file_path.is_file():
                 print(f'image file for "{i}" exists.')
             else: 
