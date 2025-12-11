@@ -16,7 +16,7 @@ UI_COORDS = {'expand_settings_btn': (32, 467),
                'camera_down_btn': (960, 561), # ? currently not in use
                'camera_left_btn': (943, 543), # ? currently not in use
                'camera_right_btn': (977,543), # ? currently not in use
-               'movement_mouse_reset': (944,158),
+               'movement_mouse_reset': (944,250),
                'star_slider_default': (1902,767),
                'star_default': (1596,670),
                'chat_hide_btn': (315,769),
@@ -24,6 +24,8 @@ UI_COORDS = {'expand_settings_btn': (32, 467),
 
 star_window_positioned = False
 
+camera_pos_x = 0
+camera_pos_y = 0
 
 class SettlerBot:
 
@@ -35,6 +37,29 @@ class SettlerBot:
                 print(f'cursor position={pyautogui.position()}')
                 time.sleep(1)
                 duration-=1
+
+    class Camera:
+        @staticmethod
+        def cameraSetZoom():
+            pyautogui.click(UI_COORDS['expand_settings_btn'][0],UI_COORDS['expand_settings_btn'][1], duration=0.5)
+            pyautogui.click(UI_COORDS['camera_settings_btn'][0],UI_COORDS['camera_settings_btn'][1], duration=0.5)
+            pyautogui.moveTo(UI_COORDS['camera_zoom_out_btn'][0],UI_COORDS['camera_zoom_out_btn'][1], duration=0.5)
+            pyautogui.click(clicks=10, interval=0.2)
+
+        @staticmethod
+        def cameraMoveX(jump_num):
+            for i in range(4*abs(jump_num)):
+                pyautogui.moveTo(UI_COORDS['movement_mouse_reset'][0],UI_COORDS['movement_mouse_reset'][1], duration=0.3)
+                pyautogui.drag((int(-600) if jump_num>0 else int(650)),0, duration=0.3)
+                
+
+        @staticmethod
+        def cameraMoveY(jump_num):
+            for i in range(2*abs(jump_num)):
+                pyautogui.moveTo(UI_COORDS['movement_mouse_reset'][0],UI_COORDS['movement_mouse_reset'][1], duration=0.3)
+                pyautogui.drag(0,(int(300) if jump_num>0 else int(-300)),duration=0.3)
+            
+
         
     @staticmethod
     def imgIntegrityCheck():
@@ -46,7 +71,7 @@ class SettlerBot:
                 print(f'! image file for "{i}" doesnt exist !')
 
     @staticmethod
-    def cameraSetPos():
+    def cameraSetZoom():
         pyautogui.click(UI_COORDS['expand_settings_btn'][0],UI_COORDS['expand_settings_btn'][1], duration=0.5)
         pyautogui.click(UI_COORDS['camera_settings_btn'][0],UI_COORDS['camera_settings_btn'][1], duration=0.5)
         pyautogui.moveTo(UI_COORDS['camera_zoom_out_btn'][0],UI_COORDS['camera_zoom_out_btn'][1], duration=0.5)
@@ -67,6 +92,7 @@ class SettlerBot:
                 pyautogui.dragTo(UI_COORDS['star_default'][0], UI_COORDS['star_default'][1], duration=2)
         except pyautogui.ImageNotFoundException:
             print('star menu window not found.')
+
 
     @staticmethod
     def starBuffSelect(buff_img):
@@ -98,28 +124,19 @@ class App(customtkinter.CTk):
         self.selector.grid(row=0,column=0,padx=20,pady=20)
 
         # ! Remove before pushing
-        SettlerBot.cameraSetPos()
-        SettlerBot.starWindowLocate()
-        SettlerBot.starBuffSelect('irma_basket')
+        # SettlerBot.starWindowLocate()
+        SettlerBot.Camera.cameraMoveY(2)
+        # SettlerBot.Camera.cameraMoveX(-1)
+        # SettlerBot.cameraSetZoom()
+        # SettlerBot.starWindowLocate()
+        # SettlerBot.starBuffSelect('irma_basket')
         # SettlerBot.Debug.getCursorPos(10)
-
-        # # * Move one map frame (y)
-        # for i in range(4):
-        #     pyautogui.moveTo(UI_COORDS['movement_mouse_reset'][0],UI_COORDS['movement_mouse_reset'][1], duration=0.3)
-        #     pyautogui.drag(0,300,duration=0.3)
-        
-        # # * Move one map frame (x)
-        # for i in range(4):
-        #     pyautogui.moveTo(UI_COORDS['movement_mouse_reset'][0],UI_COORDS['movement_mouse_reset'][1], duration=0.3)
-        #     pyautogui.drag(-600,0, duration=0.3)
-
-        
 
 
 
 app = App()
 customtkinter.set_appearance_mode('Dark')
 
-if __name__ == '__main__':
-    app.mainloop()
-
+# if __name__ == '__main__':
+#      app.mainloop()
+    
