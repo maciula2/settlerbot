@@ -6,7 +6,7 @@ Tool for automating various actions in The Settlers Online.
 ## Getting Started
 
 ### Prerequisites
-- Python 3.13 (OpenCV required for image location doesn't work on 3.14 yet)
+- Python 3.13 (OpenCV required for image detection doesn't work on 3.14 yet)
 ### Installation
 1. Clone the repository:
    ```bash
